@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import Student from "../models/Student";
 
 class StudentController {
-  async Store(req, res) {
+  async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string()
@@ -36,7 +36,7 @@ class StudentController {
     });
   }
 
-  async Update(req, res) {
+  async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),
       oldEmail: Yup.string().email(),
