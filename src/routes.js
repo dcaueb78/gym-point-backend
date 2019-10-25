@@ -19,5 +19,6 @@ routes.put("/student", StudentController.update);
 
 routes.post("/plan", PlanController.store);
 routes.get("/plan", PlanController.index);
+routes.delete("/plan", PlanController.delete);
 
 export default routes;
