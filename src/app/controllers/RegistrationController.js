@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-import { addMonths, isBefore } from "date-fns";
+import { addMonths, isBefore, format } from "date-fns";
+import pt from "date-fns/locale/pt";
 import Mail from "../../lib/Mail";
 
 import Registration from "../models/Registration";
@@ -32,7 +33,7 @@ class RegistrationController {
 
     if (
       registrationActiveExists &&
-      isBefore(registrationActiveExists.end_date, new Date())
+      !isBefore(registrationActiveExists.end_date, new Date())
     ) {
       return res.status(400).json({ error: "Already has active registration" });
     }
@@ -46,7 +47,7 @@ class RegistrationController {
     }
 
     const plan = await Plan.findByPk(req.body.plan_id, {
-      attributes: ["duration", "price"],
+      attributes: ["duration", "price", "title"],
     });
 
     if (!plan) {
@@ -61,7 +62,15 @@ class RegistrationController {
     await Mail.sendMail({
       to: `<${student.name} ${student.email}>`,
       subject: "Matrícula Efetuada",
-      text: "Salve pai",
+      template: "registration",
+      context: {
+        student: student.name,
+        plan: plan.title,
+        price: plan.price,
+      },
+      end_date: format(registration.end_date, "'dia' dd 'de' MMMM'", {
+        locale: pt,
+      }),
     });
 
     return res.json(registration);
