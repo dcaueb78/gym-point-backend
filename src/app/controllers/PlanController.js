@@ -2,7 +2,7 @@ import Plan from "../models/Plan";
 
 class PlanController {
   async store(req, res) {
-    req.body.status = "active";
+    req.body.active = true;
 
     const planExists = await Plan.findOne({ where: { title: req.body.title } });
 
@@ -30,7 +30,7 @@ class PlanController {
   async delete(req, res) {
     const plan = await Plan.findByPk(req.body.id);
 
-    plan.status = "inactive";
+    plan.active = false;
     plan.save();
     res.json(plan);
   }
@@ -38,7 +38,18 @@ class PlanController {
   async update(req, res) {
     const plan = await Plan.findByPk(req.body.id);
 
-    res.json(plan);
+    if (!plan) {
+      res.status(400).json({ error: "Plan does not exists" });
+    }
+
+    const { title, duration, price, active } = await plan.update(req.body);
+
+    return res.json({
+      title,
+      duration,
+      price,
+      active,
+    });
   }
 }
 

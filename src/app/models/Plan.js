@@ -6,13 +6,14 @@ class Plan extends Model {
       {
         title: Sequelize.STRING,
         duration: Sequelize.INTEGER,
-        price: Sequelize.BOOLEAN,
-        status: Sequelize.STRING,
+        price: Sequelize.NUMBER,
+        active: Sequelize.BOOLEAN,
       },
       {
         sequelize,
       }
     );
+    return this;
   }
 }
 
