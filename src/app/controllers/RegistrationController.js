@@ -88,19 +88,41 @@ class RegistrationController {
       end_date: Yup.date(),
     });
 
-    if (!schema.validate(req.body)) {
-      res.status(400).json({ error: "Validation Fails" });
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "Validation fails" });
     }
 
     const registration = await Registration.findByPk(req.query.id);
 
     if (!registration) {
-      res.status(400).json({ error: "Registration dont exists" });
+      return res.status(400).json({ error: "Registration dont exists" });
     }
 
-    registration.update(req.body);
+    await registration.update(req.body);
+    await registration.save();
 
-    res.json(registration);
+    return res.json(registration);
+  }
+
+  async delete(req, res) {
+    const schema = Yup.object().shape({
+      id: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.query))) {
+      return res.status(400).json({ error: "Validation fails" });
+    }
+
+    const registration = await Registration.findByPk(req.query.id);
+
+    if (!registration) {
+      res.status(400).json({ error: "Registrations do not exists" });
+    }
+
+    registration.disabled_at = new Date();
+    registration.save();
+
+    return res.json(registration);
   }
 }
 

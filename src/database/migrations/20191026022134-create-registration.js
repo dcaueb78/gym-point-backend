@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: false,
       },
+      disabled_at: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
