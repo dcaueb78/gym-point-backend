@@ -23,5 +23,6 @@ routes.put("/plan", PlanController.update);
 
 routes.get("/registration", RegistrationController.index);
 routes.post("/registration", RegistrationController.store);
+routes.put("/registration", RegistrationController.update);
 
 export default routes;

@@ -67,13 +67,32 @@ class RegistrationController {
         student: student.name,
         plan: plan.title,
         price: plan.price,
+        end_date: format(registration.end_date, "'dia' dd 'de' MMMM'", {
+          locale: pt,
+        }),
+        start_date: format(registration.start_date, "'dia' dd 'de' MMMM' '", {
+          locale: pt,
+        }),
       },
-      end_date: format(registration.end_date, "'dia' dd 'de' MMMM'", {
-        locale: pt,
-      }),
     });
 
     return res.json(registration);
+  }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      student_id: Yup.number(),
+      plan_id: Yup.number(),
+      price: Yup.number(),
+      start_date: Yup.date(),
+      end_date: Yup.date(),
+    });
+
+    if (!schema.validate(req.body)) {
+      res.status(400).json({ error: "Validation Fails" });
+    }
+
+    res.json("ok");
   }
 }
 
