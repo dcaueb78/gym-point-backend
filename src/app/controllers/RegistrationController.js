@@ -9,7 +9,9 @@ import Student from "../models/Student";
 
 class RegistrationController {
   async index(req, res) {
-    const registration = await Registration.findAll();
+    const registration = await Registration.findAll({
+      order: ["start_date"],
+    });
 
     return res.json(registration);
   }
@@ -35,7 +37,9 @@ class RegistrationController {
       registrationActiveExists &&
       !isBefore(registrationActiveExists.end_date, new Date())
     ) {
-      return res.status(400).json({ error: "Already has active registration" });
+      return res
+        .status(400)
+        .json({ error: "Student already has active registration" });
     }
 
     const student = await Student.findByPk(req.body.student_id, {
