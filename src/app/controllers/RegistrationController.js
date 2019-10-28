@@ -92,6 +92,19 @@ class RegistrationController {
       return res.status(400).json({ error: "Validation fails" });
     }
 
+    if (req.body.plan_id) {
+      const plan = await Plan.findByPk(req.body.plan_id);
+      if (!plan) {
+        return res.status(400).json({ error: "Plan not exists" });
+      }
+    }
+    if (req.body.student_id) {
+      const student = await Student.findByPk(req.body.student_id);
+      if (!student) {
+        return res.status(400).json({ error: "Student not exists" });
+      }
+    }
+
     const registration = await Registration.findByPk(req.query.id);
 
     if (!registration) {
@@ -116,7 +129,7 @@ class RegistrationController {
     const registration = await Registration.findByPk(req.query.id);
 
     if (!registration) {
-      res.status(400).json({ error: "Registrations do not exists" });
+      return res.status(400).json({ error: "Registrations not exists" });
     }
 
     registration.disabled_at = new Date();
