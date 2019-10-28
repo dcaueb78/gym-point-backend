@@ -92,7 +92,15 @@ class RegistrationController {
       res.status(400).json({ error: "Validation Fails" });
     }
 
-    res.json("ok");
+    const registration = await Registration.findByPk(req.query.id);
+
+    if (!registration) {
+      res.status(400).json({ error: "Registration dont exists" });
+    }
+
+    registration.update(req.body);
+
+    res.json(registration);
   }
 }
 
