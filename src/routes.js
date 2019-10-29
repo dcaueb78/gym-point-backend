@@ -12,6 +12,7 @@ const routes = new Router();
 
 routes.post("/login", SessionController.store);
 routes.post("/helporder", HelpOrderController.store);
+routes.get("/helporder", HelpOrderController.index);
 
 routes.use(authMiddleware);
 

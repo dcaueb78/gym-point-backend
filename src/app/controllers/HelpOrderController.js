@@ -4,11 +4,19 @@ import HelpOrder from "../schemas/HelpOrder";
 import Student from "../models/Student";
 
 class HelpOrderController {
+  async index(req, res) {
+    const helpOrder = await HelpOrder.find({
+      answer: null,
+    }).sort({
+      createdAt: "desc",
+    });
+
+    return res.json(helpOrder);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string()
-        .email()
-        .required(),
+      student_id: Yup.number().required(),
       question: Yup.string().required(),
     });
 
@@ -18,15 +26,16 @@ class HelpOrderController {
 
     const studentExists = await Student.findOne({
       where: {
-        email: req.body.email,
+        id: req.body.student_id,
       },
     });
 
     if (!studentExists) {
-      res.status(400).json({ error: "Invalid e-mail" });
+      return res.status(400).json({ error: "Invalid identification" });
     }
 
-    req.body.student_id = studentExists.id;
+    req.body.answer = null;
+    req.body.answer_at = null;
 
     const helpOrder = await HelpOrder.create(req.body);
     return res.json(helpOrder);
