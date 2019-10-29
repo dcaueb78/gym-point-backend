@@ -4,12 +4,14 @@ import SessionController from "./app/controllers/SessionController";
 import StudentController from "./app/controllers/StudentController";
 import PlanController from "./app/controllers/PlanController";
 import RegistrationController from "./app/controllers/RegistrationController";
+import HelpOrderController from "./app/controllers/HelpOrderController";
 
 import authMiddleware from "./app/middlewares/auth";
 
 const routes = new Router();
 
 routes.post("/login", SessionController.store);
+routes.post("/helporder", HelpOrderController.store);
 
 routes.use(authMiddleware);
 
