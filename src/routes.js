@@ -5,16 +5,20 @@ import StudentController from "./app/controllers/StudentController";
 import PlanController from "./app/controllers/PlanController";
 import RegistrationController from "./app/controllers/RegistrationController";
 import HelpOrderController from "./app/controllers/HelpOrderController";
+import HelpOrderResponseController from "./app/controllers/HelpOrderResponseController";
 
 import authMiddleware from "./app/middlewares/auth";
 
 const routes = new Router();
 
 routes.post("/login", SessionController.store);
-routes.post("/helporder", HelpOrderController.store);
-routes.get("/helporder", HelpOrderController.index);
+routes.post("/help-orders", HelpOrderController.store);
+routes.get("/help-orders", HelpOrderController.index);
 
 routes.use(authMiddleware);
+
+routes.get("/help-orders/answer", HelpOrderResponseController.index);
+routes.post("/help-orders/:id/answer", HelpOrderResponseController.store);
 
 routes.post("/student", StudentController.store);
 routes.put("/student", StudentController.update);
