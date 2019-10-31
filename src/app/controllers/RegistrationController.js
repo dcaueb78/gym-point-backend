@@ -1,11 +1,12 @@
 import * as Yup from "yup";
-import { addMonths, isBefore, format } from "date-fns";
-import pt from "date-fns/locale/pt";
-import Mail from "../../lib/Mail";
+import { addMonths, isBefore } from "date-fns";
 
 import Registration from "../models/Registration";
 import Plan from "../models/Plan";
 import Student from "../models/Student";
+
+import RegistrationMail from "../jobs/RegistrationMail";
+import Queue from "../../lib/Queue";
 
 class RegistrationController {
   async index(req, res) {
@@ -63,21 +64,11 @@ class RegistrationController {
     req.body.price = plan.duration * plan.price;
 
     const registration = await Registration.create(req.body);
-    await Mail.sendMail({
-      to: `${student.name} <${student.email}>`,
-      subject: "Matrícula Efetuada",
-      template: "registration",
-      context: {
-        student: student.name,
-        plan: plan.title,
-        price: plan.price,
-        end_date: format(registration.end_date, "'dia' dd 'de' MMMM'", {
-          locale: pt,
-        }),
-        start_date: format(registration.start_date, "'dia' dd 'de' MMMM' '", {
-          locale: pt,
-        }),
-      },
+
+    await Queue.add(RegistrationMail.key, {
+      student,
+      plan,
+      registration,
     });
 
     return res.json(registration);

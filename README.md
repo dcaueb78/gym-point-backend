@@ -1,4 +1,4 @@
-Inicializar ambiente de desenvolvimento `yarn dev`
+
 
 Rodar eslint para organizar todos os arquivos JS `yarn eslint --fix src --ext .js`
 
@@ -21,5 +21,10 @@ Levantar container MongoDB `docker start mongobarber`
 Criar container Redis `docker run --name redisbarber -p 6379:6379 -d -t redis:alpine`
 
 Levantar container Redis `docker start redisbarber`
+
+
+##Para iniciar servidor seguir os passos:
+
+Inicializar ambiente de desenvolvimento `yarn dev`
 
 Rodar Queue Redis `yarn queue`

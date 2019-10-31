@@ -16,22 +16,28 @@ routes.post("/login", SessionController.store);
 routes.post("/students/:student_id/help-orders", HelpOrderController.store);
 routes.get("/help-orders/:student_id/help-orders", HelpOrderController.index);
 
-routes.use(authMiddleware);
+routes.get(
+  "/help-orders/answer",
+  authMiddleware,
+  HelpOrderResponseController.index
+);
+routes.post(
+  "/help-orders/:id/answer",
+  authMiddleware,
+  HelpOrderResponseController.store
+);
 
-routes.get("/help-orders/answer", HelpOrderResponseController.index);
-routes.post("/help-orders/:id/answer", HelpOrderResponseController.store);
+routes.post("/student", authMiddleware, StudentController.store);
+routes.put("/student", authMiddleware, StudentController.update);
 
-routes.post("/student", StudentController.store);
-routes.put("/student", StudentController.update);
+routes.post("/plan", authMiddleware, PlanController.store);
+routes.get("/plan", authMiddleware, PlanController.index);
+routes.delete("/plan", authMiddleware, PlanController.delete);
+routes.put("/plan", authMiddleware, PlanController.update);
 
-routes.post("/plan", PlanController.store);
-routes.get("/plan", PlanController.index);
-routes.delete("/plan", PlanController.delete);
-routes.put("/plan", PlanController.update);
-
-routes.get("/registration", RegistrationController.index);
-routes.post("/registration", RegistrationController.store);
-routes.put("/registration", RegistrationController.update);
-routes.delete("/registration", RegistrationController.delete);
+routes.get("/registration", authMiddleware, RegistrationController.index);
+routes.post("/registration", authMiddleware, RegistrationController.store);
+routes.put("/registration", authMiddleware, RegistrationController.update);
+routes.delete("/registration", authMiddleware, RegistrationController.delete);
 
 export default routes;
