@@ -31,7 +31,7 @@ class HelpOrderResponseController {
       attributes: ["email", "name"],
     });
 
-    await Mail.sendMail({
+    Mail.sendMail({
       to: `${student.name} <${student.email}>`,
       subject: "Uma dúvida foi respondida",
       template: "answered",
