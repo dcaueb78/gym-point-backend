@@ -64,7 +64,7 @@ class RegistrationController {
 
     const registration = await Registration.create(req.body);
     await Mail.sendMail({
-      to: `<${student.name} ${student.email}>`,
+      to: `${student.name} <${student.email}>`,
       subject: "Matrícula Efetuada",
       template: "registration",
       context: {

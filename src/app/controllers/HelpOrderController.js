@@ -6,7 +6,7 @@ import Student from "../models/Student";
 class HelpOrderController {
   async index(req, res) {
     const helpOrder = await HelpOrder.find({
-      student_id: req.query.id,
+      student_id: req.params.student_id,
     }).sort({
       createdAt: "desc",
     });
@@ -20,13 +20,18 @@ class HelpOrderController {
       question: Yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (
+      !(await schema.isValid({
+        student_id: req.params.student_id,
+        question: req.body.question,
+      }))
+    ) {
       return res.status(400).json({ error: "Validation fails" });
     }
 
     const studentExists = await Student.findOne({
       where: {
-        id: req.body.student_id,
+        id: req.params.student_id,
       },
     });
 
@@ -37,7 +42,12 @@ class HelpOrderController {
     req.body.answer = null;
     req.body.answer_at = null;
 
-    const helpOrder = await HelpOrder.create(req.body);
+    const helpOrder = await HelpOrder.create({
+      student_id: req.params.student_id,
+      question: req.body.question,
+      answer: req.body.answer,
+      answer_at: req.body.answer_at,
+    });
     return res.json(helpOrder);
   }
 }

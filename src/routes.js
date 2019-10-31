@@ -12,8 +12,9 @@ import authMiddleware from "./app/middlewares/auth";
 const routes = new Router();
 
 routes.post("/login", SessionController.store);
-routes.post("/help-orders", HelpOrderController.store);
-routes.get("/help-orders", HelpOrderController.index);
+
+routes.post("/students/:student_id/help-orders", HelpOrderController.store);
+routes.get("/help-orders/:student_id/help-orders", HelpOrderController.index);
 
 routes.use(authMiddleware);
 

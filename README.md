@@ -14,6 +14,12 @@ Desfazer ultima migration `yarn sequelize db:migrate:undo`
 
 Desfazer todas as migrations `yarn sequelize db:migrate:undo:all`
 
-Gerar Seed `yarn sequelize seed:generate --name admin-user`
+Criar container MongoDB `docker run --name mongobarber -p 27017:27017 -d -t mongo`
 
-Carregar Seeds `yarn sequelize db:seed:all`
+Levantar container MongoDB `docker start mongobarber`
+
+Criar container Redis `docker run --name redisbarber -p 6379:6379 -d -t redis:alpine`
+
+Levantar container Redis `docker start redisbarber`
+
+Rodar Queue Redis `yarn queue`
