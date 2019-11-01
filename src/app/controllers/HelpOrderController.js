@@ -5,6 +5,20 @@ import Student from "../models/Student";
 
 class HelpOrderController {
   async index(req, res) {
+    const schema = Yup.object().shape({
+      student_id: Yup.number().required(),
+      question: Yup.string().required(),
+    });
+
+    if (
+      !schema.isValid({
+        student_id: req.params.student_id,
+        question: req.body.question,
+      })
+    ) {
+      return res.status(400).json({ error: "Validation Fails" });
+    }
+
     const helpOrder = await HelpOrder.find({
       student_id: req.params.student_id,
     }).sort({
