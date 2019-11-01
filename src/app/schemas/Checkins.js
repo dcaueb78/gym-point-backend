@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { isBefore, subDays } from "date-fns";
 
 const Checkin = new mongoose.Schema(
   {
@@ -6,9 +7,21 @@ const Checkin = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    this_week: {
+      type: Boolean,
+      get() {
+        return isBefore(new Date(), subDays(this.date, 7));
+      },
+    },
   },
   {
     timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
 

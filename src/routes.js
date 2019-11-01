@@ -6,12 +6,16 @@ import PlanController from "./app/controllers/PlanController";
 import RegistrationController from "./app/controllers/RegistrationController";
 import HelpOrderController from "./app/controllers/HelpOrderController";
 import HelpOrderResponseController from "./app/controllers/HelpOrderResponseController";
+import CheckingController from "./app/controllers/CheckinController";
 
 import authMiddleware from "./app/middlewares/auth";
 
 const routes = new Router();
 
 routes.post("/login", SessionController.store);
+
+routes.post("/students/:id/checkins", CheckingController.store);
+routes.get("/students/:id/checkins", CheckingController.index);
 
 routes.post("/students/:student_id/help-orders", HelpOrderController.store);
 routes.get("/help-orders/:student_id/help-orders", HelpOrderController.index);
