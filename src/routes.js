@@ -14,8 +14,8 @@ const routes = new Router();
 
 routes.post("/login", SessionController.store);
 
-routes.post("/students/:id/checkins", CheckingController.store);
-routes.get("/students/:id/checkins", CheckingController.index);
+routes.post("/students/:student_id/checkins", CheckingController.store);
+routes.get("/students/:student_id/checkins", CheckingController.index);
 
 routes.post("/students/:student_id/help-orders", HelpOrderController.store);
 routes.get("/help-orders/:student_id/help-orders", HelpOrderController.index);

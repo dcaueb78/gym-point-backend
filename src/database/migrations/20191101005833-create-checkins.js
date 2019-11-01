@@ -6,6 +6,10 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
       },
+      student_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
