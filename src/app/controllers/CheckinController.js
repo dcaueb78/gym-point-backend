@@ -9,11 +9,7 @@ class CheckinController {
       student_id: Yup.number().required(),
     });
 
-    if (
-      !schema.isValid({
-        student_id: req.params.student_id,
-      })
-    ) {
+    if (!(await schema.isValid(req.params))) {
       return res.status(400).json({ error: "Validation Fails" });
     }
 
@@ -25,20 +21,20 @@ class CheckinController {
     const studentCheckins = await Checkin.findAll({
       where: {
         student_id: req.params.student_id,
-        createAt: {
+        created_at: {
           [Op.between]: [currentStartOfWeek, currentEndOfWeek],
         },
       },
       limit: limitCheckin,
     });
 
-    if (studentCheckins > limitCheckin) {
+    if (studentCheckins.length >= limitCheckin) {
       return res.status(400).json({ error: "Weekly checkin limit reached" });
     }
 
     const checkin = await Checkin.create({
       student_id: req.params.student_id,
-      created_At: new Date(),
+      created_at: new Date(),
     });
 
     return res.json(checkin);
@@ -49,7 +45,11 @@ class CheckinController {
       student_id: Yup.number().required(),
     });
 
-    if (!schema.isValid) {
+    if (
+      !(await schema.isValid({
+        student_id: req.params.student_id,
+      }))
+    ) {
       return res.status(400).json({ error: "Validation Fails" });
     }
 
