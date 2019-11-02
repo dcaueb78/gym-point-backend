@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import HelpOrder from "../schemas/HelpOrder";
 import Student from "../models/Student";
 
@@ -16,8 +17,22 @@ class HelpOrderResponseController {
   }
 
   async store(req, res) {
+    const schema = Yup.object().shape({
+      answer: Yup.string().required(),
+      id: Yup.string().required(),
+    });
+
+    if (
+      !(await schema.isValid({
+        answer: req.body.answer,
+        id: req.params.id,
+      }))
+    ) {
+      return res.status(400).json({ error: "Validation fails" });
+    }
+
     if (!req.body.answer) {
-      res.status(401).json({ error: "Answer required" });
+      return res.status(401).json({ error: "Answer required" });
     }
 
     const helpOrder = await HelpOrder.findOneAndUpdate(

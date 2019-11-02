@@ -11,10 +11,10 @@ class HelpOrderController {
     });
 
     if (
-      !schema.isValid({
+      !(await schema.isValid({
         student_id: req.params.student_id,
         question: req.body.question,
-      })
+      }))
     ) {
       return res.status(400).json({ error: "Validation Fails" });
     }
