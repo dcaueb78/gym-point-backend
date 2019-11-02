@@ -32,16 +32,16 @@ routes.post(
 );
 
 routes.post("/student", authMiddleware, StudentController.store);
-routes.put("/student", authMiddleware, StudentController.update);
+routes.patch("/student", authMiddleware, StudentController.update);
 
 routes.post("/plan", authMiddleware, PlanController.store);
 routes.get("/plan", authMiddleware, PlanController.index);
 routes.delete("/plan", authMiddleware, PlanController.delete);
-routes.put("/plan", authMiddleware, PlanController.update);
+routes.patch("/plan", authMiddleware, PlanController.update);
 
 routes.get("/registration", authMiddleware, RegistrationController.index);
 routes.post("/registration", authMiddleware, RegistrationController.store);
-routes.put("/registration", authMiddleware, RegistrationController.update);
+routes.patch("/registration", authMiddleware, RegistrationController.update);
 routes.delete("/registration", authMiddleware, RegistrationController.delete);
 
 export default routes;
