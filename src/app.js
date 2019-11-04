@@ -8,9 +8,12 @@ import sentryConfig from "./config/sentry";
 import routes from "./routes";
 import "./database";
 
+const helmet = require("helmet");
+
 class App {
   constructor() {
     this.server = express();
+    this.server.use(helmet);
 
     Sentry.init(sentryConfig);
 
